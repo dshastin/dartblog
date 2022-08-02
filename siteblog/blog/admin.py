@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django import forms
 from ckeditor.widgets import CKEditorWidget
+from django.utils.safestring import mark_safe
+
 from blog.models import *
 
 
@@ -15,7 +17,23 @@ class PostAdminForm(forms.ModelForm):
 class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title', )}
     form = PostAdminForm
-    list_display = ('title', 'author')
+    save_on_top = True
+
+    list_display = ('id', 'title', 'slug', 'category', 'created_at', 'get_photo')
+    list_display_links = ('id', 'title')
+    search_fields = ('title', )
+    list_filter = ('category', )
+    readonly_fields = ('views', 'created_at', 'get_photo')
+    fields = ('title', 'slug', 'category', 'tags', 'content', 'photo', 'get_photo', 'created_at', 'author')
+
+    def get_photo(self, obj):
+        if obj.photo:
+            return mark_safe(f'<img src="{obj.photo.url}" width="50">')
+        return '-'
+
+    get_photo.short_description = 'Фото'
+
+
 
 
 class CategoryAdmin(admin.ModelAdmin):
