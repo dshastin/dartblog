@@ -129,7 +129,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'siteblog/static')
+    os.path.join(BASE_DIR, 'siteblog/static'),
 ]
 
 # Default primary key field type
@@ -213,7 +213,6 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(BASE_DIR, 'django_cache'),
-        'TIMEOUT': 60,
     }
 
 }
